@@ -82,7 +82,7 @@
         <child>
           <object class="GtkButton" id="btn_dodelido">
             <property name="label" translatable="yes">dodelido</property>
-            <property name="width_request">121</property>
+            <property name="width_request">90</property>
             <property name="height_request">37</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
@@ -90,8 +90,8 @@
             <signal name="clicked" handler="on_btn_dodelido_clicked" swapped="no"/>
           </object>
           <packing>
-            <property name="x">13</property>
-            <property name="y">120</property>
+            <property name="x">15</property>
+            <property name="y">123</property>
           </packing>
         </child>
         <child>
