@@ -13,7 +13,7 @@ int main (int argc, char **argv) {
     gtk_init(&argc, &argv);
 
 	setup_window();
-    gtk_widget_show(window);                
+    gtk_widget_show(window);
     gtk_main();
 
     quit();

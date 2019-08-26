@@ -2,16 +2,14 @@
 #include <stdio.h>
 #include <assert.h>
 #include <string.h>
-#include <time.h>
-#include <gtk/gtk.h>
-
+#include <unistd.h>
 #include "engine.h"
 
 void
 initialise() {
     p1 = create_player();
     p2 = create_player();
-    f = create_field();
+    f  = create_field();
 }
 
 void
@@ -31,6 +29,7 @@ create_player () {
         int a = rand() % 4;
         new->cards[i] = create_card(c, a);
     }
+    new->turn = 0;
     return new;
 }
 
@@ -76,34 +75,23 @@ clean_up_field() {
 }
 
 char*
-p_print() {
+p_print(Player *p) {
     char *str;
     str = (char *) malloc(500);
     str = strcpy(str, "");
     for (int i=0; i < MAXCARDS; i++) {
         strcat(str, "[ ");
-        if (p1->cards[i] != NULL) {
-            strcat(str, vect_animal[p1->cards[i]->animal]);
+        if (p->cards[i] != NULL) {
+            strcat(str, vect_animal[p->cards[i]->animal]);
             strcat(str, ", ");
-            strcat(str, vect_colour[p1->cards[i]->colour]);
+            strcat(str, vect_colour[p->cards[i]->colour]);
         }
         strcat(str, " ]");
     }
     return str;
 }
 
-void
-next_run (Player *p) {
-    if (p->cards[0] != NULL) {
-        f->cards[f_count % 3] = p->cards[0];
-        f->cards_all[f_count] = f->cards[f_count % 3];
-        remove_card(p);
-        f_count++;
-    }
-    printf("%s\n\n", p_print());
-}
-
-gchar*
+char*
 evaluate() {
     int max_colour[5] = {0,0,0,0,0};
     int max_animal[4] = {0,0,0,0};
@@ -142,19 +130,36 @@ evaluate() {
         return "error";    
 }
 
-gchar*
+void
+next_run (Player *p) {
+    if (p->cards[0] != NULL) {
+		if (p2->turn == 1) {
+			p2->turn = 0;
+        }
+		else if (p2->turn == 0) {
+			p2->turn = 1;
+		}
+    f->cards[f_count % 3] = p->cards[0];
+    f->cards_all[f_count] = f->cards[f_count % 3];
+    remove_card(p);
+    f_count++;
+    }
+  //  printf("%s\n\n", p_print(p2));
+}
+
+char*
 print() {
-    gchar *str;
-    str = (gchar *) malloc(200);
+    char *str;
+    str = (char *) malloc(200);
     str = strcpy(str, "");
     for (int i=0; i < 3; i++) {
         if (f->cards[i] != NULL) {
-            strcat(str, "[ ");
+            strcat(str, " [ ");
             strcat(str, vect_animal[f->cards[i]->animal]);
             strcat(str, ", ");
             strcat(str, vect_colour[f->cards[i]->colour]);
-            strcat(str, " ]");
+            strcat(str, " ] ");
         }
     }
-    return str;
+	return str;
 }
