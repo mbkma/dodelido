@@ -6,27 +6,56 @@
 
 #include "window.h"
 
-#include <unistd.h>
-#include <sys/time.h>
-#include <sys/types.h>
-
-#define WAIT 3
-
 char str_count[30] = {0};
+char str_player[30] = {0};
+int  btn_oeh_clicked = 0;
 
-void on_btn_place_card_clicked() {
-	next_run(p1);
+void 
+on_btn_place_card_clicked() {
+    Player *p = get_current_player();
+	next_run(p);
+    draw_field();
+    btn_oeh_clicked = 0;
+}
+
+Player*
+get_current_player() {
+    if (p1->turn == 1)
+        return p1;
+    else if (p2->turn == 1)
+        return p2;
+    else if (p3->turn == 1)
+        return p3;
+    else
+        return p1;
+}
+
+void 
+draw_field() {
+    Player *p = get_current_player();
+    if (p == p1)
+        sprintf(str_player, "Player %d", 1);
+    else if (p == p2)
+        sprintf(str_player, "Player %d", 2);
+    else if (p == p3)
+        sprintf(str_player, "Player %d", 3);
+    else
+        sprintf(str_player, "Player %d", 1);
+    gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), print());
+    gtk_label_set_text(GTK_LABEL(widgets->g_lbl_count), get_number_of_cards(get_current_player()));
+    gtk_label_set_text(GTK_LABEL(widgets->g_lbl_player_turn), str_player);
 }
 
 char*
-get_number_of_cards() {
+get_number_of_cards(Player *p) {
     int count;
-    for (count = 0; p1->cards[count] != NULL; count++)
+    for (count = 0; p->cards[count] != NULL; count++)
         ;
-    sprintf(str_count, "%d", count);
+    sprintf(str_count, "%d Cards", count);
     return str_count;
 }
 
+/*
 gboolean timer_handler(app_widgets *widgets)
 {
     gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), print());    // update label
@@ -34,15 +63,38 @@ gboolean timer_handler(app_widgets *widgets)
     
     return TRUE;
 }
-
+*/  //TODO: implement computer player
 
 void on_menu_new_activate() {
-    g_timeout_add_seconds(1, (GSourceFunc)timer_handler, widgets);
+   // g_timeout_add_seconds(1, (GSourceFunc)timer_handler, widgets); //TODO: implement computer player
+    gtk_dialog_run(GTK_DIALOG(new_dialog));
+}
+
+void on_menu_about_activate() {
+    gtk_dialog_run(GTK_DIALOG(about_dialog));
+}
+
+void on_new_dialog_apply_clicked() {
+    gtk_widget_destroy(new_dialog) ;
+    draw_field();
+    printf("%d\n", f->number_of_players);
+}
+
+void on_dialog_rb1_toggled() {
+    f->number_of_players = 1;
+}
+
+void on_dialog_rb2_toggled() {
+    f->number_of_players = 2;
+}
+
+void on_dialog_rb3_toggled() {
+    f->number_of_players = 3;
 }
 
 void on_btn_dodelido_clicked() {
     gchar* cmp = evaluate();
-    if (strcmp(cmp, "dodelido") == 0)
+    if (strcmp(cmp, "dodelido") == 0 && btn_oeh_clicked == f->number_of_turtles)
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "true");
     else {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
@@ -53,8 +105,9 @@ void on_btn_dodelido_clicked() {
 }
 
 void on_btn_green_clicked() {
+    Player *p = get_current_player();
     gchar* cmp = evaluate();
-    if (strcmp(cmp, "GRUEN") == 0)
+    if (strcmp(cmp, "GRUEN") == 0 && btn_oeh_clicked == f->number_of_turtles)
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "true");
     else {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
@@ -62,11 +115,13 @@ void on_btn_green_clicked() {
             add_card(p1, f->cards_all[i]);
         clean_up_field();
     }
+    set_turn(p);
 }
 
 void on_btn_yellow_clicked() {
+    Player *p = get_current_player();
     gchar* cmp = evaluate();
-    if (strcmp(cmp, "GELB") == 0)
+    if (strcmp(cmp, "GELB") == 0 && btn_oeh_clicked == f->number_of_turtles)
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "true");
     else {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
@@ -74,11 +129,13 @@ void on_btn_yellow_clicked() {
             add_card(p1, f->cards_all[i]);
         clean_up_field();
     }
+    set_turn(p);
 }
 
 void on_btn_blue_clicked() {
+    Player *p = get_current_player();
     gchar* cmp = evaluate();
-    if (strcmp(cmp, "BLAU") == 0)
+    if (strcmp(cmp, "BLAU") == 0 && btn_oeh_clicked == f->number_of_turtles)
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "true");
     else {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
@@ -86,11 +143,13 @@ void on_btn_blue_clicked() {
             add_card(p1, f->cards_all[i]);
         clean_up_field();
     }
+    set_turn(p);
 }
 
 void on_btn_red_clicked() {
+    Player *p = get_current_player();
     gchar* cmp = evaluate();
-    if (strcmp(cmp, "ROT") == 0)
+    if (strcmp(cmp, "ROT") == 0 && btn_oeh_clicked == f->number_of_turtles)
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "true");
     else {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
@@ -98,11 +157,13 @@ void on_btn_red_clicked() {
             add_card(p1, f->cards_all[i]);
         clean_up_field();
     }
+    set_turn(p);
 }
 
 void on_btn_penguin_clicked() {
+    Player *p = get_current_player();
     gchar* cmp = evaluate();
-    if (strcmp(cmp, "PINGUIN") == 0)
+    if (strcmp(cmp, "PINGUIN") == 0 && btn_oeh_clicked == f->number_of_turtles)
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "true");
     else {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
@@ -110,11 +171,13 @@ void on_btn_penguin_clicked() {
             add_card(p1, f->cards_all[i]);
         clean_up_field();
     }
+    set_turn(p);
 }
 
 void on_btn_zebra_clicked() {
+    Player *p = get_current_player();
     gchar* cmp = evaluate();
-    if (strcmp(cmp, "ZEBRA") == 0)
+    if (strcmp(cmp, "ZEBRA") == 0 && btn_oeh_clicked == f->number_of_turtles)
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "true");
     else {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
@@ -122,11 +185,13 @@ void on_btn_zebra_clicked() {
             add_card(p1, f->cards_all[i]);
         clean_up_field();
     }
+    set_turn(p);
 }
 
 void on_btn_camel_clicked() {
+    Player *p = get_current_player();
     gchar* cmp = evaluate();
-    if (strcmp(cmp, "KAMEL") == 0)
+    if (strcmp(cmp, "KAMEL") == 0 && btn_oeh_clicked == f->number_of_turtles)
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "true");
     else {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
@@ -134,35 +199,28 @@ void on_btn_camel_clicked() {
             add_card(p1, f->cards_all[i]);
         clean_up_field();
     }
+    set_turn(p);
 }
 
 void on_btn_oeh_clicked() {
     gchar* cmp = evaluate();
-    if (strcmp(cmp, "SCHILDKROETE") == 0) //TODO
-        gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "true");
-    else {
+    if (f->number_of_turtles == 0) {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
         for (int i = 0; i<MAXCARDS; i++)
             add_card(p1, f->cards_all[i]);
         clean_up_field();
     }
+    btn_oeh_clicked++;
 }
 
 void on_btn_smash_clicked() {
-    gchar* cmp = evaluate();
-    if (strcmp(cmp, "DINO") == 0)
-        gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), ""); //TODO
-    else {
-        gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
-        for (int i = 0; i<MAXCARDS; i++)
-            add_card(p1, f->cards_all[i]);
-        clean_up_field();
-    }
+    //TODO
 }
 
 void on_btn_nothing_clicked() {
+    Player *p = get_current_player();
     gchar* cmp = evaluate();
-    if (strcmp(cmp, "nichts") == 0)
+    if (strcmp(cmp, "nichts") == 0 && btn_oeh_clicked == f->number_of_turtles)
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "true");
     else {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
@@ -170,6 +228,7 @@ void on_btn_nothing_clicked() {
             add_card(p1, f->cards_all[i]);
         clean_up_field();
     }
+    set_turn(p);
 }
 
 void on_window_main_destroy() {
@@ -187,6 +246,9 @@ setup_window() {
 
     widgets->g_lbl_field = GTK_WIDGET(gtk_builder_get_object(builder, "lbl_field"));
     widgets->g_lbl_count = GTK_WIDGET(gtk_builder_get_object(builder, "lbl_count"));
+    widgets->g_lbl_player_turn = GTK_WIDGET(gtk_builder_get_object(builder, "lbl_player_turn"));
+    new_dialog = GTK_WIDGET(gtk_builder_get_object(builder, "menu_new_dialog"));
+ 	about_dialog = GTK_WIDGET(gtk_builder_get_object(builder, "menu_about_dialog"));
 
     g_object_unref(builder);
 }

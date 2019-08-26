@@ -3,19 +3,23 @@
 #include <assert.h>
 #include <string.h>
 #include <unistd.h>
+
 #include "engine.h"
 
 void
 initialise() {
     p1 = create_player();
     p2 = create_player();
+    p3 = create_player();
     f  = create_field();
+    p1->turn = 1;
 }
 
 void
 quit() {
     free(p1);
     free(p2);
+    free(p3);
     free(f);
 }
 
@@ -47,6 +51,8 @@ Field*
 create_field () {
     Field *new;
     new = (Field*) malloc(sizeof(Field));
+    new->number_of_players = 1;
+    new->number_of_turtles = 0;
     return new;
 }
 
@@ -72,23 +78,6 @@ clean_up_field() {
         f->cards_all[i] = NULL;
     for (int i = 0; i < 3; i++)
         f->cards[i] = NULL;
-}
-
-char*
-p_print(Player *p) {
-    char *str;
-    str = (char *) malloc(500);
-    str = strcpy(str, "");
-    for (int i=0; i < MAXCARDS; i++) {
-        strcat(str, "[ ");
-        if (p->cards[i] != NULL) {
-            strcat(str, vect_animal[p->cards[i]->animal]);
-            strcat(str, ", ");
-            strcat(str, vect_colour[p->cards[i]->colour]);
-        }
-        strcat(str, " ]");
-    }
-    return str;
 }
 
 char*
@@ -118,6 +107,7 @@ evaluate() {
         if (max_colour[i] > 1)
             nothing_c = 0;
     }
+    f->number_of_turtles = max_animal[3];
     if (nothing_a && nothing_c)
         return "nichts";
     else if (max_a > max_c)
@@ -131,18 +121,28 @@ evaluate() {
 }
 
 void
+set_turn (Player *p) {
+    p->turn = 0;
+    if (p == p1 && f->number_of_players > 1)
+        p2->turn = 1;
+    else if (p == p1)
+        p1->turn = 1;
+    else if (p == p2 && f->number_of_players > 2)
+        p3->turn = 1;
+    else if (p == p2)
+        p1->turn = 1;
+    else if (p == p3)
+        p1->turn = 1;
+}
+
+
+void
 next_run (Player *p) {
     if (p->cards[0] != NULL) {
-		if (p2->turn == 1) {
-			p2->turn = 0;
-        }
-		else if (p2->turn == 0) {
-			p2->turn = 1;
-		}
-    f->cards[f_count % 3] = p->cards[0];
-    f->cards_all[f_count] = f->cards[f_count % 3];
-    remove_card(p);
-    f_count++;
+        f->cards[f_count % 3] = p->cards[0];
+        f->cards_all[f_count] = f->cards[f_count % 3];
+        remove_card(p);
+        f_count++;
     }
   //  printf("%s\n\n", p_print(p2));
 }
@@ -162,4 +162,22 @@ print() {
         }
     }
 	return str;
+}
+
+
+char*
+p_print(Player *p) {
+    char *str;
+    str = (char *) malloc(500);
+    str = strcpy(str, "");
+    for (int i=0; i < MAXCARDS; i++) {
+        strcat(str, "[ ");
+        if (p->cards[i] != NULL) {
+            strcat(str, vect_animal[p->cards[i]->animal]);
+            strcat(str, ", ");
+            strcat(str, vect_colour[p->cards[i]->colour]);
+        }
+        strcat(str, " ]");
+    }
+    return str;
 }

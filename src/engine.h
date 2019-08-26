@@ -16,6 +16,8 @@ typedef struct _card {
 typedef struct _field {
     Card    *cards[3];
     Card    *cards_all[MAXCARDS];
+    int     number_of_players;
+    int     number_of_turtles;
 } Field;
 
 typedef struct _player {
@@ -23,7 +25,7 @@ typedef struct _player {
 	int		turn;
 } Player;
 
-Player  *p1, *p2;
+Player  *p1, *p2, *p3;
 Field   *f;
 
 Player* create_player ();
@@ -36,6 +38,7 @@ void    quit();
 void    add_card (Player *p, Card *card);
 void	remove_card (Player *p);
 void    clean_up_field();
+void    set_turn (Player *p);
 void    next_run (Player *p);
 char*	print();
 
