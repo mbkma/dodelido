@@ -120,7 +120,7 @@ void on_btn_dodelido_clicked() {
     else {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
         for (int i = 0; i<MAXCARDS; i++)
-            add_card(p1, f->cards_all[i]);
+            add_card(p, f->cards_all[i]);
         clean_up_field();
     }
     gtk_widget_set_sensitive (GTK_WIDGET(place_card), TRUE);
@@ -135,7 +135,7 @@ void on_btn_green_clicked() {
     else {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
         for (int i = 0; i<MAXCARDS; i++)
-            add_card(p1, f->cards_all[i]);
+            add_card(p, f->cards_all[i]);
         clean_up_field();
     }
     gtk_widget_set_sensitive (GTK_WIDGET(place_card), TRUE);
@@ -150,7 +150,7 @@ void on_btn_yellow_clicked() {
     else {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
         for (int i = 0; i<MAXCARDS; i++)
-            add_card(p1, f->cards_all[i]);
+            add_card(p, f->cards_all[i]);
         clean_up_field();
     }
     gtk_widget_set_sensitive (GTK_WIDGET(place_card), TRUE);
@@ -165,7 +165,7 @@ void on_btn_blue_clicked() {
     else {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
         for (int i = 0; i<MAXCARDS; i++)
-            add_card(p1, f->cards_all[i]);
+            add_card(p, f->cards_all[i]);
         clean_up_field();
     }
     gtk_widget_set_sensitive (GTK_WIDGET(place_card), TRUE);
@@ -180,7 +180,7 @@ void on_btn_red_clicked() {
     else {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
         for (int i = 0; i<MAXCARDS; i++)
-            add_card(p1, f->cards_all[i]);
+            add_card(p, f->cards_all[i]);
         clean_up_field();
     }
     gtk_widget_set_sensitive (GTK_WIDGET(place_card), TRUE);
@@ -195,7 +195,7 @@ void on_btn_penguin_clicked() {
     else {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
         for (int i = 0; i<MAXCARDS; i++)
-            add_card(p1, f->cards_all[i]);
+            add_card(p, f->cards_all[i]);
         clean_up_field();
     }
     gtk_widget_set_sensitive (GTK_WIDGET(place_card), TRUE);
@@ -210,7 +210,7 @@ void on_btn_zebra_clicked() {
     else {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
         for (int i = 0; i<MAXCARDS; i++)
-            add_card(p1, f->cards_all[i]);
+            add_card(p, f->cards_all[i]);
         clean_up_field();
     }
     gtk_widget_set_sensitive (GTK_WIDGET(place_card), TRUE);
@@ -225,7 +225,7 @@ void on_btn_camel_clicked() {
     else {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
         for (int i = 0; i<MAXCARDS; i++)
-            add_card(p1, f->cards_all[i]);
+            add_card(p, f->cards_all[i]);
         clean_up_field();
     }
     gtk_widget_set_sensitive (GTK_WIDGET(place_card), TRUE);
@@ -233,11 +233,12 @@ void on_btn_camel_clicked() {
 }
 
 void on_btn_oeh_clicked() {
+    Player *p = get_current_player();
     gchar* cmp = evaluate();
     if (f->number_of_turtles == 0) {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
         for (int i = 0; i<MAXCARDS; i++)
-            add_card(p1, f->cards_all[i]);
+            add_card(p, f->cards_all[i]);
         clean_up_field();
     }
     if (f->number_of_turtles == btn_oeh_clicked)
@@ -257,7 +258,7 @@ void on_btn_nothing_clicked() {
     else {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
         for (int i = 0; i<MAXCARDS; i++)
-            add_card(p1, f->cards_all[i]);
+            add_card(p, f->cards_all[i]);
         clean_up_field();
     }
     gtk_widget_set_sensitive (GTK_WIDGET(place_card), TRUE);
@@ -287,3 +288,5 @@ setup_window() {
 
     g_object_unref(builder);
 }
+
+
