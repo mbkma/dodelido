@@ -90,6 +90,7 @@ evaluate() {
         max_animal[f->cards[i]->animal]++;
         max_colour[f->cards[i]->colour]++;
     }
+    f->number_of_turtles = max_animal[3];
 
     for (int i = 0; i<4; i++) {
         if (max_animal[i] > max_a) {
@@ -107,7 +108,7 @@ evaluate() {
         if (max_colour[i] > 1)
             nothing_c = 0;
     }
-    f->number_of_turtles = max_animal[3];
+
     if (nothing_a && nothing_c)
         return "nichts";
     else if (max_a > max_c)
@@ -181,3 +182,5 @@ p_print(Player *p) {
     }
     return str;
 }
+
+

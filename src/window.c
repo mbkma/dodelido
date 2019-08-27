@@ -10,16 +10,21 @@
 
 char str_count[30] = {0};
 char str_player[30] = {0};
+char str_message[30] = {0};
 int  btn_oeh_clicked = 0;
 int  music = 0;
 
 void 
 on_btn_place_card_clicked() {
     Player *p = get_current_player();
+    btn_oeh_clicked = 0;
 	next_run(p);
+    if (get_number_of_cards(p1) == 0 || get_number_of_cards(p2) == 0 || get_number_of_cards(p3) == 0 ) {
+        sprintf(str_message, "Player %d won!", get_current_player_number());
+        gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), str_message);
+    }
     draw_field();
     gtk_widget_set_sensitive (GTK_WIDGET(place_card), FALSE);
-    btn_oeh_clicked = 0;
 }
 
 Player*
@@ -34,17 +39,22 @@ get_current_player() {
         return p1;
 }
 
-void 
-draw_field() {
+int 
+get_current_player_number() {
     Player *p = get_current_player();
     if (p == p1)
-        sprintf(str_player, "Player %d", 1);
+        return 1;
     else if (p == p2)
-        sprintf(str_player, "Player %d", 2);
+        return 2;
     else if (p == p3)
-        sprintf(str_player, "Player %d", 3);
+        return 3;
     else
-        sprintf(str_player, "Player %d", 1);
+        return 1; // necessary?
+}
+
+void 
+draw_field() {
+    sprintf(str_player, "Player %d", get_current_player_number());
     gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), print());
     gtk_label_set_text(GTK_LABEL(widgets->g_lbl_count), get_number_of_cards(get_current_player()));
     gtk_label_set_text(GTK_LABEL(widgets->g_lbl_player_turn), str_player);
@@ -110,21 +120,6 @@ void on_preferences_dialog_music_state_set() {
 
 void on_preferences_dialog_apply_clicked() {
     gtk_widget_destroy(preferences_dialog) ;
-}
-
-void on_btn_dodelido_clicked() {
-    Player *p = get_current_player();
-    gchar* cmp = evaluate();
-    if (strcmp(cmp, "dodelido") == 0 && btn_oeh_clicked == f->number_of_turtles)
-        gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "true");
-    else {
-        gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
-        for (int i = 0; i<MAXCARDS; i++)
-            add_card(p, f->cards_all[i]);
-        clean_up_field();
-    }
-    gtk_widget_set_sensitive (GTK_WIDGET(place_card), TRUE);
-    set_turn(p);
 }
 
 void on_btn_green_clicked() {
@@ -232,18 +227,34 @@ void on_btn_camel_clicked() {
     set_turn(p);
 }
 
-void on_btn_oeh_clicked() {
+void on_btn_dodelido_clicked() {
     Player *p = get_current_player();
     gchar* cmp = evaluate();
-    if (f->number_of_turtles == 0) {
+    if (strcmp(cmp, "dodelido") == 0 && btn_oeh_clicked == f->number_of_turtles)
+        gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "true");
+    else {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
         for (int i = 0; i<MAXCARDS; i++)
             add_card(p, f->cards_all[i]);
         clean_up_field();
     }
+    gtk_widget_set_sensitive (GTK_WIDGET(place_card), TRUE);
+    set_turn(p);
+}
+
+void on_btn_oeh_clicked() {
+    Player *p = get_current_player();
+    evaluate();
+    btn_oeh_clicked++;
+    if (f->number_of_turtles == 0) {
+        gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
+        for (int i = 0; i<MAXCARDS; i++)
+            add_card(p, f->cards_all[i]);
+        clean_up_field();
+    gtk_widget_set_sensitive (GTK_WIDGET(place_card), TRUE);
+    }
     if (f->number_of_turtles == btn_oeh_clicked)
         gtk_widget_set_sensitive (GTK_WIDGET(place_card), TRUE);
-    btn_oeh_clicked++;
 }
 
 void on_btn_smash_clicked() {
