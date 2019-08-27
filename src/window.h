@@ -7,6 +7,8 @@ GtkBuilder	*builder;
 GtkWidget	*window;
 GtkWidget	*new_dialog;
 GtkWidget   *about_dialog;
+GtkWidget   *place_card;
+GtkWidget   *preferences_dialog;
 
 typedef struct {
     GtkWidget	*g_lbl_field;

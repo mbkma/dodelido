@@ -3,18 +3,22 @@
 #include <assert.h>
 #include <string.h>
 #include <gtk/gtk.h>
+#include <glib.h>
+#include <gsound.h>
 
 #include "window.h"
 
 char str_count[30] = {0};
 char str_player[30] = {0};
 int  btn_oeh_clicked = 0;
+int  music = 0;
 
 void 
 on_btn_place_card_clicked() {
     Player *p = get_current_player();
 	next_run(p);
     draw_field();
+    gtk_widget_set_sensitive (GTK_WIDGET(place_card), FALSE);
     btn_oeh_clicked = 0;
 }
 
@@ -77,7 +81,11 @@ void on_menu_about_activate() {
 void on_new_dialog_apply_clicked() {
     gtk_widget_destroy(new_dialog) ;
     draw_field();
-    printf("%d\n", f->number_of_players);
+    if (music) {
+    	GSoundContext *hello = gsound_context_new(NULL, NULL);
+	    gsound_context_play_simple(hello, NULL, NULL,
+	    	  GSOUND_ATTR_MEDIA_FILENAME, "data/thanks_to_0ad.ogg", NULL);
+        }
 }
 
 void on_dialog_rb1_toggled() {
@@ -92,7 +100,20 @@ void on_dialog_rb3_toggled() {
     f->number_of_players = 3;
 }
 
+void on_menu_preferences_activate() {
+    gtk_dialog_run(GTK_DIALOG(preferences_dialog));
+}
+
+void on_preferences_dialog_music_state_set() {
+    (music == 0) ? (music = 1) : (music = 0);
+}
+
+void on_preferences_dialog_apply_clicked() {
+    gtk_widget_destroy(preferences_dialog) ;
+}
+
 void on_btn_dodelido_clicked() {
+    Player *p = get_current_player();
     gchar* cmp = evaluate();
     if (strcmp(cmp, "dodelido") == 0 && btn_oeh_clicked == f->number_of_turtles)
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "true");
@@ -102,6 +123,8 @@ void on_btn_dodelido_clicked() {
             add_card(p1, f->cards_all[i]);
         clean_up_field();
     }
+    gtk_widget_set_sensitive (GTK_WIDGET(place_card), TRUE);
+    set_turn(p);
 }
 
 void on_btn_green_clicked() {
@@ -115,6 +138,7 @@ void on_btn_green_clicked() {
             add_card(p1, f->cards_all[i]);
         clean_up_field();
     }
+    gtk_widget_set_sensitive (GTK_WIDGET(place_card), TRUE);
     set_turn(p);
 }
 
@@ -129,6 +153,7 @@ void on_btn_yellow_clicked() {
             add_card(p1, f->cards_all[i]);
         clean_up_field();
     }
+    gtk_widget_set_sensitive (GTK_WIDGET(place_card), TRUE);
     set_turn(p);
 }
 
@@ -143,6 +168,7 @@ void on_btn_blue_clicked() {
             add_card(p1, f->cards_all[i]);
         clean_up_field();
     }
+    gtk_widget_set_sensitive (GTK_WIDGET(place_card), TRUE);
     set_turn(p);
 }
 
@@ -157,6 +183,7 @@ void on_btn_red_clicked() {
             add_card(p1, f->cards_all[i]);
         clean_up_field();
     }
+    gtk_widget_set_sensitive (GTK_WIDGET(place_card), TRUE);
     set_turn(p);
 }
 
@@ -171,6 +198,7 @@ void on_btn_penguin_clicked() {
             add_card(p1, f->cards_all[i]);
         clean_up_field();
     }
+    gtk_widget_set_sensitive (GTK_WIDGET(place_card), TRUE);
     set_turn(p);
 }
 
@@ -185,6 +213,7 @@ void on_btn_zebra_clicked() {
             add_card(p1, f->cards_all[i]);
         clean_up_field();
     }
+    gtk_widget_set_sensitive (GTK_WIDGET(place_card), TRUE);
     set_turn(p);
 }
 
@@ -199,6 +228,7 @@ void on_btn_camel_clicked() {
             add_card(p1, f->cards_all[i]);
         clean_up_field();
     }
+    gtk_widget_set_sensitive (GTK_WIDGET(place_card), TRUE);
     set_turn(p);
 }
 
@@ -210,6 +240,8 @@ void on_btn_oeh_clicked() {
             add_card(p1, f->cards_all[i]);
         clean_up_field();
     }
+    if (f->number_of_turtles == btn_oeh_clicked)
+        gtk_widget_set_sensitive (GTK_WIDGET(place_card), TRUE);
     btn_oeh_clicked++;
 }
 
@@ -228,6 +260,7 @@ void on_btn_nothing_clicked() {
             add_card(p1, f->cards_all[i]);
         clean_up_field();
     }
+    gtk_widget_set_sensitive (GTK_WIDGET(place_card), TRUE);
     set_turn(p);
 }
 
@@ -247,8 +280,10 @@ setup_window() {
     widgets->g_lbl_field = GTK_WIDGET(gtk_builder_get_object(builder, "lbl_field"));
     widgets->g_lbl_count = GTK_WIDGET(gtk_builder_get_object(builder, "lbl_count"));
     widgets->g_lbl_player_turn = GTK_WIDGET(gtk_builder_get_object(builder, "lbl_player_turn"));
+    place_card = GTK_WIDGET(gtk_builder_get_object(builder, "btn_place_card"));
     new_dialog = GTK_WIDGET(gtk_builder_get_object(builder, "menu_new_dialog"));
  	about_dialog = GTK_WIDGET(gtk_builder_get_object(builder, "menu_about_dialog"));
+ 	preferences_dialog = GTK_WIDGET(gtk_builder_get_object(builder, "menu_preferences_dialog"));
 
     g_object_unref(builder);
 }

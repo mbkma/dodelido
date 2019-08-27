@@ -14,7 +14,7 @@ PTHREAD=-pthread
 
 CCFLAGS=$(DEBUG) $(OPT) $(WARN) $(PTHREAD) -pipe
 
-GTKLIB=`pkg-config --cflags --libs gtk+-3.0`
+GTKLIB=`pkg-config --cflags --libs gtk+-3.0 glib-2.0 gsound`
 
 # linker
 LD=gcc
