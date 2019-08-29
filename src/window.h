@@ -21,9 +21,6 @@ void            on_window_main_destroy(void);
 void            on_btn_place_card_clicked(void);
 app_widgets     *widgets;
 gboolean        timer_handler(app_widgets *widgets);
-Player*         get_current_player();
 void            draw_field();
-char*           get_number_of_cards(Player *p);
-int             get_current_player_number();
 
 #endif /*_WINDOW_H_*/

@@ -30,7 +30,7 @@ create_player () {
     assert(new != NULL);
     for (int i = 0; i < 8; i++) {
         int c = rand() % 5;
-        int a = rand() % 4;
+        int a = rand() % 3;
         new->cards[i] = create_card(c, a);
     }
     new->turn = 0;
@@ -80,6 +80,39 @@ clean_up_field() {
         f->cards[i] = NULL;
 }
 
+Player*
+get_current_player() {
+    if (p1->turn == 1)
+        return p1;
+    else if (p2->turn == 1)
+        return p2;
+    else if (p3->turn == 1)
+        return p3;
+    else
+        return p1;
+}
+
+int 
+get_current_player_number() {
+    Player *p = get_current_player();
+    if (p == p1)
+        return 1;
+    else if (p == p2)
+        return 2;
+    else if (p == p3)
+        return 3;
+    else
+        return 1; // necessary?
+}
+
+int
+get_number_of_cards(Player *p) {
+    int count;
+    for (count = 0; p->cards[count] != NULL; count++)
+        ;
+    return count;
+}
+
 char*
 evaluate() {
     int max_colour[5] = {0,0,0,0,0};
@@ -108,7 +141,8 @@ evaluate() {
         if (max_colour[i] > 1)
             nothing_c = 0;
     }
-
+    if (get_number_of_cards(p1) == 0 || get_number_of_cards(p2) == 0 || get_number_of_cards(p3) == 0 )
+        return "over";
     if (nothing_a && nothing_c)
         return "nichts";
     else if (max_a > max_c)

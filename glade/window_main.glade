@@ -485,6 +485,7 @@
     <property name="artists">various</property>
     <property name="logo">../data/59__elephant_by_lucky978_d8jw80q-fullview.jpg</property>
     <property name="license_type">gpl-3-0</property>
+    <signal name="response" handler="on_menu_about_dialog_response" swapped="no"/>
     <child>
       <placeholder/>
     </child>
@@ -535,6 +536,7 @@
             <child>
               <object class="GtkButton" id="new_dialog_apply">
                 <property name="label" translatable="yes">Apply</property>
+                <property name="name">hello</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>

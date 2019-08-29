@@ -41,6 +41,10 @@ void    clean_up_field();
 void    set_turn (Player *p);
 void    next_run (Player *p);
 char*	print();
+int             get_number_of_cards(Player *p);
+int             get_current_player_number();
+Player*         get_current_player();
+
 
 #endif /*_ENGINE_H_*/
 

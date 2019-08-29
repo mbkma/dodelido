@@ -262,6 +262,7 @@
                 <property name="receives_default">True</property>
                 <property name="image">img_yellow</property>
                 <signal name="clicked" handler="on_btn_yellow_clicked" swapped="no"/>
+                <accelerator key="r" signal="clicked"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -276,6 +277,7 @@
                 <property name="receives_default">True</property>
                 <property name="image">img_green</property>
                 <signal name="clicked" handler="on_btn_green_clicked" swapped="no"/>
+                <accelerator key="t" signal="clicked"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -290,6 +292,7 @@
                 <property name="receives_default">True</property>
                 <property name="image">img_blue</property>
                 <signal name="clicked" handler="on_btn_blue_clicked" swapped="no"/>
+                <accelerator key="z" signal="clicked"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -304,6 +307,7 @@
                 <property name="receives_default">True</property>
                 <property name="image">img_red</property>
                 <signal name="clicked" handler="on_btn_red_clicked" swapped="no"/>
+                <accelerator key="u" signal="clicked"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -330,7 +334,7 @@
                 <property name="receives_default">True</property>
                 <property name="image">img_zebra</property>
                 <signal name="clicked" handler="on_btn_zebra_clicked" swapped="no"/>
-                <accelerator key="z" signal="clicked"/>
+                <accelerator key="f" signal="clicked"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -345,6 +349,7 @@
                 <property name="receives_default">True</property>
                 <property name="image">img_camel</property>
                 <signal name="clicked" handler="on_btn_camel_clicked" swapped="no"/>
+                <accelerator key="g" signal="clicked"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -359,6 +364,7 @@
                 <property name="receives_default">True</property>
                 <property name="image">img_pinguin</property>
                 <signal name="clicked" handler="on_btn_penguin_clicked" swapped="no"/>
+                <accelerator key="h" signal="clicked"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -385,6 +391,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <signal name="clicked" handler="on_btn_dodelido_clicked" swapped="no"/>
+                <accelerator key="v" signal="clicked"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -399,6 +406,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <signal name="clicked" handler="on_btn_smash_clicked" swapped="no"/>
+                <accelerator key="b" signal="clicked"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -413,6 +421,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <signal name="clicked" handler="on_btn_oeh_clicked" swapped="no"/>
+                <accelerator key="n" signal="clicked"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -427,6 +436,7 @@
                 <property name="receives_default">True</property>
                 <property name="image">image1</property>
                 <signal name="clicked" handler="on_btn_place_card_clicked" swapped="no"/>
+                <accelerator key="space" signal="clicked"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -442,6 +452,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <signal name="clicked" handler="on_btn_nothing_clicked" swapped="no"/>
+                <accelerator key="m" signal="clicked"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -474,6 +485,7 @@
     <property name="artists">various</property>
     <property name="logo">../data/59__elephant_by_lucky978_d8jw80q-fullview.jpg</property>
     <property name="license_type">gpl-3-0</property>
+    <signal name="response" handler="on_menu_about_dialog_response" swapped="no"/>
     <child>
       <placeholder/>
     </child>
@@ -524,6 +536,7 @@
             <child>
               <object class="GtkButton" id="new_dialog_apply">
                 <property name="label" translatable="yes">Apply</property>
+                <property name="name">hello</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -626,7 +639,6 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="image">img_apply1</property>
-                <signal name="clicked" handler="on_preferences_dialog_apply_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>
