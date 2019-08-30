@@ -9,11 +9,13 @@
 #include "window.h"
 
 char str_lbl_field[30] = {0};
-char str_lbl_count[30] ={0};
+char str_lbl_count[30] = {0};
 
+extern int f_count;
 int  count = 0;
 int  btn_oeh_clicked = 0;
 int  music = 1;
+int  time_limit = 0;
 
 void 
 on_btn_place_card_clicked() {
@@ -40,8 +42,6 @@ draw_field() {
     sprintf(str_lbl_count, "Cards %d", get_number_of_cards(get_current_player()));
     sprintf(str_lbl_field, "Player %d", get_current_player_number());
 
-    printf("%s\n", get_f_animal(count));
-    printf("%s\n", get_f_colour(count));
     if (strcmp(get_f_animal(count), "PINGUIN") == 0) {
         if (strcmp(get_f_colour(count), "ROT") == 0)
             strcpy(filepath, "data/c_red_pinguin.png");
@@ -106,6 +106,7 @@ clean_up_field() {
     gtk_image_set_from_icon_name (image_f2, "gtk-remove",  GTK_ICON_SIZE_BUTTON);
     gtk_image_set_from_icon_name (image_f3, "gtk-remove",  GTK_ICON_SIZE_BUTTON);
     count = 0;
+    f_count = 0;
 }
 
 
@@ -164,6 +165,9 @@ void on_menu_preferences_activate() {
     gtk_dialog_run(GTK_DIALOG(preferences_dialog));
 }
 
+void on_preferences_dialog_time_state_set() {
+    (time_limit == 0) ? (time_limit = 1) : (time_limit = 0);
+}
 
 void on_preferences_dialog_music_state_set() {
     (music == 0) ? (music = 1) : (music = 0);
@@ -172,7 +176,7 @@ void on_preferences_dialog_music_state_set() {
 void on_btn_green_clicked() {
     Player *p = get_current_player();
     gchar *cmp = evaluate();
-    if(g_timer_elapsed (timer, NULL) > 3) {
+    if (time_limit && g_timer_elapsed (timer, NULL) > 3) {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "time elapsed");
         for (int i = 0; i<MAXCARDS; i++)
             add_card(p, f->cards_all[i]);
@@ -193,7 +197,7 @@ void on_btn_green_clicked() {
 void on_btn_yellow_clicked() {
     Player *p = get_current_player();
     gchar *cmp = evaluate();
-    if(g_timer_elapsed (timer, NULL) > 3) {
+    if (time_limit && g_timer_elapsed (timer, NULL) > 3) {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "time elapsed");
         for (int i = 0; i<MAXCARDS; i++)
             add_card(p, f->cards_all[i]);
@@ -214,7 +218,7 @@ void on_btn_yellow_clicked() {
 void on_btn_blue_clicked() {
     Player *p = get_current_player();
     gchar *cmp = evaluate();
-    if(g_timer_elapsed (timer, NULL) > 3) {
+    if(time_limit && g_timer_elapsed (timer, NULL) > 3) {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "time elapsed");
         for (int i = 0; i<MAXCARDS; i++)
             add_card(p, f->cards_all[i]);
@@ -235,7 +239,7 @@ void on_btn_blue_clicked() {
 void on_btn_red_clicked() {
     Player *p = get_current_player();
     gchar* cmp = evaluate();
-    if(g_timer_elapsed (timer, NULL) > 3) {
+    if(time_limit && g_timer_elapsed (timer, NULL) > 3) {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "time elapsed");
         for (int i = 0; i<MAXCARDS; i++)
             add_card(p, f->cards_all[i]);
@@ -256,7 +260,7 @@ void on_btn_red_clicked() {
 void on_btn_penguin_clicked() {
     Player *p = get_current_player();
     gchar* cmp = evaluate();
-    if(g_timer_elapsed (timer, NULL) > 3) {
+    if(time_limit && g_timer_elapsed (timer, NULL) > 3) {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "time elapsed");
         for (int i = 0; i<MAXCARDS; i++)
             add_card(p, f->cards_all[i]);
@@ -274,10 +278,31 @@ void on_btn_penguin_clicked() {
     set_turn(p);
 }
 
+void on_btn_turtle_clicked() {
+    Player *p = get_current_player();
+    gchar* cmp = evaluate();
+    if(time_limit && g_timer_elapsed (timer, NULL) > 3) {
+        gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "time elapsed");
+        for (int i = 0; i<MAXCARDS; i++)
+            add_card(p, f->cards_all[i]);
+        clean_up_field();
+    }
+    else if (strcmp(cmp, "SCHILDKROETE") == 0 && btn_oeh_clicked == f->number_of_turtles)
+        gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "true");
+    else {
+        gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
+        for (int i = 0; i<MAXCARDS; i++)
+            add_card(p, f->cards_all[i]);
+        clean_up_field();
+    }
+    gtk_widget_set_sensitive (GTK_WIDGET(place_card), TRUE);
+    set_turn(p);
+}
+
 void on_btn_zebra_clicked() {
     Player *p = get_current_player();
     gchar* cmp = evaluate();
-    if(g_timer_elapsed (timer, NULL) > 3) {
+    if(time_limit && g_timer_elapsed (timer, NULL) > 3) {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "time elapsed");
         for (int i = 0; i<MAXCARDS; i++)
             add_card(p, f->cards_all[i]);
@@ -298,7 +323,7 @@ void on_btn_zebra_clicked() {
 void on_btn_camel_clicked() {
     Player *p = get_current_player();
     gchar* cmp = evaluate();
-    if(g_timer_elapsed (timer, NULL) > 3) {
+    if(time_limit && g_timer_elapsed (timer, NULL) > 3) {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "time elapsed");
         for (int i = 0; i<MAXCARDS; i++)
             add_card(p, f->cards_all[i]);
@@ -319,7 +344,7 @@ void on_btn_camel_clicked() {
 void on_btn_dodelido_clicked() {
     Player *p = get_current_player();
     gchar* cmp = evaluate();
-    if(g_timer_elapsed (timer, NULL) > 3) {
+    if(time_limit && g_timer_elapsed (timer, NULL) > 3) {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "time elapsed");
         for (int i = 0; i<MAXCARDS; i++)
             add_card(p, f->cards_all[i]);
@@ -341,11 +366,12 @@ void on_btn_oeh_clicked() {
     Player *p = get_current_player();
     gchar* cmp = evaluate();
     btn_oeh_clicked++;
-    if(g_timer_elapsed (timer, NULL) > 3) {
+    if(time_limit && g_timer_elapsed (timer, NULL) > 3) {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "time elapsed");
         for (int i = 0; i<MAXCARDS; i++)
             add_card(p, f->cards_all[i]);
         clean_up_field();
+        gtk_widget_set_sensitive (GTK_WIDGET(place_card), TRUE);
     }
     else if (btn_oeh_clicked == f->number_of_turtles)
         ;
@@ -366,7 +392,7 @@ void on_btn_smash_clicked() {
 void on_btn_nothing_clicked() {
     Player *p = get_current_player();
     gchar* cmp = evaluate();
-    if(g_timer_elapsed (timer, NULL) > 3) {
+    if(time_limit && g_timer_elapsed (timer, NULL) > 3) {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "time elapsed");
         for (int i = 0; i<MAXCARDS; i++)
             add_card(p, f->cards_all[i]);

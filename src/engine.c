@@ -181,32 +181,13 @@ next_run (Player *p) {
 
 char*
 get_f_animal(int i) {
-    if (f->cards[i] != NULL && f->cards[i]->animal < 4)
+    if (f->cards[i] != NULL)
         return vect_animal[f->cards[i]->animal];
 }
 
 char*
 get_f_colour (int i) {
-    if (f->cards[i] != NULL && f->cards[i]->colour < 4)
+    if (f->cards[i] != NULL)
         return vect_colour[f->cards[i]->colour];
 }
-
-
-char*
-p_print(Player *p) {
-    char *str;
-    str = (char *) malloc(500);
-    str = strcpy(str, "");
-    for (int i=0; i < MAXCARDS; i++) {
-        strcat(str, "[ ");
-        if (p->cards[i] != NULL) {
-            strcat(str, vect_animal[p->cards[i]->animal]);
-            strcat(str, ", ");
-            strcat(str, vect_colour[p->cards[i]->colour]);
-        }
-        strcat(str, " ]");
-    }
-    return str;
-}
-
 

@@ -2,11 +2,6 @@
 <!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <object class="GtkImage" id="image1">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-goto-bottom</property>
-  </object>
   <object class="GtkImage" id="img_apply">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -37,10 +32,20 @@
     <property name="can_focus">False</property>
     <property name="pixbuf">../data/zooskizzen_8_humboldtpinguin__humboldt_penguin__by_dragunalb_d9ypv3v-fullview.png</property>
   </object>
+  <object class="GtkImage" id="img_place_card">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-goto-bottom</property>
+  </object>
   <object class="GtkImage" id="img_red">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="pixbuf">../data/red.png</property>
+  </object>
+  <object class="GtkImage" id="img_turtle">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">../data/turtle.png</property>
   </object>
   <object class="GtkImage" id="img_yellow">
     <property name="visible">True</property>
@@ -412,6 +417,20 @@
                 <property name="position">2</property>
               </packing>
             </child>
+            <child>
+              <object class="GtkButton" id="btn_turtle">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="image">img_turtle</property>
+                <signal name="clicked" handler="on_btn_turtle_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -474,7 +493,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="image">image1</property>
+                <property name="image">img_place_card</property>
                 <signal name="clicked" handler="on_btn_place_card_clicked" swapped="no"/>
                 <accelerator key="space" signal="clicked"/>
               </object>
@@ -740,7 +759,43 @@
               </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="homogeneous">True</property>
+                <child>
+                  <object class="GtkSwitch" id="preferences_dialog_time">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="halign">center</property>
+                    <property name="valign">center</property>
+                    <property name="active">True</property>
+                    <signal name="state-set" handler="on_preferences_dialog_time_state_set" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Time Limit</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
             </child>
           </object>
           <packing>
