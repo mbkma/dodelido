@@ -117,11 +117,11 @@ evaluate() {
     for (int i=0; f->cards[i] != NULL && i<3; i++) {
         max_animal[f->cards[i]->animal]++;
         max_colour[f->cards[i]->colour]++;
-    printf("max_a %d\n", max_animal[f->cards[i]->animal]);
-    printf("max_c %d\n", max_colour[f->cards[i]->colour]);
+   // printf("max_a %d\n", max_animal[f->cards[i]->animal]);
+    //printf("max_c %d\n", max_colour[f->cards[i]->colour]);
     }
     f->number_of_turtles = max_animal[3];
-    printf("%d\n", f->number_of_turtles);
+  //  printf("%d\n", f->number_of_turtles);
 
 
     for (int i = 0; i<4; i++) {
