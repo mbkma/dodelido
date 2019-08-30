@@ -38,6 +38,8 @@ draw_field() {
     sprintf(str_lbl_count, "Cards %d", get_number_of_cards(get_current_player()));
     sprintf(str_lbl_field, "Player %d", get_current_player_number());
 
+   // printf("%s\n", get_f_animal(count));
+    //printf("%s\n", get_f_colour(count));
     if (strcmp(get_f_animal(count), "PINGUIN") == 0) {
         if (strcmp(get_f_colour(count), "ROT") == 0)
             strcpy(filepath, "data/c_red_pinguin.png");

@@ -176,6 +176,7 @@ next_run (Player *p) {
         remove_card(p);
         f_count++;
     }
+    evaluate();
 }
 
 char*
