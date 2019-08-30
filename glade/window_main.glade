@@ -711,6 +711,7 @@
                     <property name="can_focus">True</property>
                     <property name="halign">center</property>
                     <property name="valign">center</property>
+                    <property name="active">True</property>
                     <signal name="state-set" handler="on_preferences_dialog_music_state_set" swapped="no"/>
                   </object>
                   <packing>

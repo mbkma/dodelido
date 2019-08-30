@@ -31,8 +31,8 @@ create_player () {
     new = (Player*) malloc(sizeof(Player));
     assert(new != NULL);
     for (int i = 0; i < 8; i++) {
-        c = g_random_int_range(0,3);
-        a = g_random_int_range(0,2);
+        c = g_random_int_range(0,4);
+        a = g_random_int_range(0,3);
         new->cards[i] = create_card(c, a);
         if (g_random_int_range (0,19) < 1)
             new->cards[i] = create_card(c, 3);
@@ -181,22 +181,14 @@ next_run (Player *p) {
 
 char*
 get_f_animal(int i) {
-    char *str;
-    str = (char *) malloc(200);
-    if (f->cards[i] != NULL) {
-        strcpy(str, vect_animal[f->cards[i]->animal]);
-    }
-	return str;
+    if (f->cards[i] != NULL && f->cards[i]->animal < 4)
+        return vect_animal[f->cards[i]->animal];
 }
 
 char*
 get_f_colour (int i) {
-    char *str;
-    str = (char *) malloc(200);
-    if (f->cards[i] != NULL) {
-        strcpy(str, vect_colour[f->cards[i]->colour]);
-    }
-    return str;
+    if (f->cards[i] != NULL && f->cards[i]->colour < 4)
+        return vect_colour[f->cards[i]->colour];
 }
 
 

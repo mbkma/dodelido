@@ -12,6 +12,7 @@ GtkWidget   *preferences_dialog;
 GtkImage    *image_f1;
 GtkImage    *image_f2;
 GtkImage    *image_f3;
+GTimer      *timer;
 
 typedef struct {
     GtkWidget	*g_lbl_field;

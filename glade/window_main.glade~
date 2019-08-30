@@ -253,7 +253,6 @@
                 <property name="height_request">80</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="stock">gtk-remove</property>
               </object>
               <packing>
                 <property name="x">24</property>
@@ -266,7 +265,6 @@
                 <property name="height_request">80</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="stock">gtk-remove</property>
               </object>
               <packing>
                 <property name="x">132</property>
@@ -279,7 +277,6 @@
                 <property name="height_request">80</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="stock">gtk-remove</property>
               </object>
               <packing>
                 <property name="x">249</property>
