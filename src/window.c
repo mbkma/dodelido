@@ -84,7 +84,8 @@ draw_field() {
         gtk_image_set_from_file (image_f2, filepath);
     else if (count == 2)
         gtk_image_set_from_file (image_f3, filepath);
- //   gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), print());
+
+    free(filepath);
     gtk_label_set_text(GTK_LABEL(widgets->g_lbl_count), str_lbl_count);
     gtk_label_set_text(GTK_LABEL(widgets->g_lbl_player_turn), str_lbl_field);
     count++;
