@@ -11,6 +11,7 @@
 char str_lbl_field[30] = {0};
 char str_lbl_count[30] ={0};
 
+int  count = 0;
 int  btn_oeh_clicked = 0;
 int  music = 0;
 
@@ -18,6 +19,7 @@ void
 on_btn_place_card_clicked() {
     Player *p = get_current_player();
     btn_oeh_clicked = 0;
+    gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "");
 	next_run(p);
     draw_field();
     gtk_widget_set_sensitive (GTK_WIDGET(place_card), FALSE);
@@ -25,11 +27,80 @@ on_btn_place_card_clicked() {
 
 void 
 draw_field() {
+    char *filepath;
+    filepath = (char *) malloc(200);
+
+    if (get_number_of_cards(p1) == 0 || get_number_of_cards(p2) == 0 || get_number_of_cards(p3) == 0 ) {
+        sprintf(str_lbl_field, "Player %d won!", get_current_player_number());
+        gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), str_lbl_field);
+    }
+
     sprintf(str_lbl_count, "Cards %d", get_number_of_cards(get_current_player()));
     sprintf(str_lbl_field, "Player %d", get_current_player_number());
-    gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), print());
+
+    if (strcmp(get_f_animal(count), "PINGUIN") == 0) {
+        if (strcmp(get_f_colour(count), "ROT") == 0)
+            strcpy(filepath, "data/c_red_pinguin.png");
+        else if (strcmp(get_f_colour(count), "BLAU") == 0)
+            strcpy(filepath, "data/c_blue_pinguin.png");
+        else if (strcmp(get_f_colour(count), "GRUEN") == 0)
+             strcpy(filepath, "data/c_green_pinguin.png");
+        else if (strcmp(get_f_colour(count), "GELB") == 0)
+             strcpy(filepath, "data/c_yellow_pinguin.png");
+    }
+    else if (strcmp(get_f_animal(count), "KAMEL") == 0) {
+        if (strcmp(get_f_colour(count), "ROT") == 0)
+              strcpy(filepath,  "data/c_red_camel.png");
+        else if (strcmp(get_f_colour(count), "BLAU") == 0)
+            strcpy(filepath, "data/c_blue_camel.png");
+        else if (strcmp(get_f_colour(count), "GRUEN") == 0)
+             strcpy(filepath, "data/c_green_camel.png");
+        else if (strcmp(get_f_colour(count), "GELB") == 0)
+           strcpy(filepath, "data/c_yellow_camel.png");
+    }
+    else if (strcmp(get_f_animal(count), "ZEBRA") == 0) {
+        if (strcmp(get_f_colour(count), "ROT") == 0)
+            strcpy(filepath, "data/c_red_zebra.png");
+        else if (strcmp(get_f_colour(count), "BLAU") == 0)
+            strcpy(filepath, "data/c_blue_zebra.png");
+        else if (strcmp(get_f_colour(count), "GRUEN") == 0)
+             strcpy(filepath, "data/c_green_zebra.png");
+        else if (strcmp(get_f_colour(count), "GELB") == 0)
+             strcpy(filepath, "data/c_yellow_zebra.png");
+    }
+    else if (strcmp(get_f_animal(count), "SCHILDKROETE") == 0) {
+        if (strcmp(get_f_colour(count), "ROT") == 0)
+            strcpy(filepath, "data/c_red_turtle.png");
+        else if (strcmp(get_f_colour(count), "BLAU") == 0)
+            strcpy(filepath, "data/c_blue_turtle.png");
+        else if (strcmp(get_f_colour(count), "GRUEN") == 0)
+             strcpy(filepath, "data/c_green_turtle.png");
+        else if (strcmp(get_f_colour(count), "GELB") == 0)
+             strcpy(filepath, "data/c_yellow_turtle.png");
+    }
+    if (count == 0)
+        gtk_image_set_from_file (image_f1, filepath);
+    else if (count == 1)
+        gtk_image_set_from_file (image_f2, filepath);
+    else if (count == 2)
+        gtk_image_set_from_file (image_f3, filepath);
+ //   gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), print());
     gtk_label_set_text(GTK_LABEL(widgets->g_lbl_count), str_lbl_count);
     gtk_label_set_text(GTK_LABEL(widgets->g_lbl_player_turn), str_lbl_field);
+    count++;
+    count %= 3;
+}
+
+void
+clean_up_field() {
+    for (int i = 0; i < MAXCARDS; i++)
+        f->cards_all[i] = NULL;
+    for (int i = 0; i < 3; i++)
+        f->cards[i] = NULL;
+    gtk_image_set_from_icon_name (image_f1, "gtk-remove",  GTK_ICON_SIZE_BUTTON);
+    gtk_image_set_from_icon_name (image_f2, "gtk-remove",  GTK_ICON_SIZE_BUTTON);
+    gtk_image_set_from_icon_name (image_f3, "gtk-remove",  GTK_ICON_SIZE_BUTTON);
+    count = 0;
 }
 
 
@@ -58,7 +129,9 @@ void on_menu_about_dialog_response() {
 
 void on_new_dialog_apply_clicked() {
     gtk_widget_hide(new_dialog) ;
-    draw_field();
+    gtk_image_set_from_icon_name (image_f1, "gtk-remove",  GTK_ICON_SIZE_BUTTON);
+    gtk_image_set_from_icon_name (image_f2, "gtk-remove",  GTK_ICON_SIZE_BUTTON);
+    gtk_image_set_from_icon_name (image_f3, "gtk-remove",  GTK_ICON_SIZE_BUTTON);
     if (music) {
     	GSoundContext *hello = gsound_context_new(NULL, NULL);
 	    gsound_context_play_simple(hello, NULL, NULL,
@@ -94,11 +167,7 @@ void on_preferences_dialog_music_state_set() {
 void on_btn_green_clicked() {
     Player *p = get_current_player();
     gchar *cmp = evaluate();
-    if (strcmp(cmp, "over") == 0) {
-        sprintf(str_lbl_field, "Player %d won!", get_current_player_number());
-        gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), str_lbl_field);
-    }
-    else if (strcmp(cmp, "GRUEN") == 0 && btn_oeh_clicked == f->number_of_turtles)
+    if (strcmp(cmp, "GRUEN") == 0 && btn_oeh_clicked == f->number_of_turtles)
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "true");
     else {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
@@ -113,11 +182,7 @@ void on_btn_green_clicked() {
 void on_btn_yellow_clicked() {
     Player *p = get_current_player();
     gchar *cmp = evaluate();
-    if (strcmp(cmp, "over") == 0) {
-        sprintf(str_lbl_field, "Player %d won!", get_current_player_number());
-        gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), str_lbl_field);
-    }
-    else if (strcmp(cmp, "GELB") == 0 && btn_oeh_clicked == f->number_of_turtles)
+    if (strcmp(cmp, "GELB") == 0 && btn_oeh_clicked == f->number_of_turtles)
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "true");
     else {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
@@ -132,11 +197,7 @@ void on_btn_yellow_clicked() {
 void on_btn_blue_clicked() {
     Player *p = get_current_player();
     gchar *cmp = evaluate();
-    if (strcmp(cmp, "over") == 0) {
-        sprintf(str_lbl_field, "Player %d won!", get_current_player_number());
-        gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), str_lbl_field);
-    }
-    else if (strcmp(cmp, "BLAU") == 0 && btn_oeh_clicked == f->number_of_turtles)
+    if (strcmp(cmp, "BLAU") == 0 && btn_oeh_clicked == f->number_of_turtles)
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "true");
     else {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
@@ -151,11 +212,7 @@ void on_btn_blue_clicked() {
 void on_btn_red_clicked() {
     Player *p = get_current_player();
     gchar* cmp = evaluate();
-    if (strcmp(cmp, "over") == 0) {
-        sprintf(str_lbl_field, "Player %d won!", get_current_player_number());
-        gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), str_lbl_field);
-    }
-    else if (strcmp(cmp, "ROT") == 0 && btn_oeh_clicked == f->number_of_turtles)
+    if (strcmp(cmp, "ROT") == 0 && btn_oeh_clicked == f->number_of_turtles)
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "true");
     else {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
@@ -170,11 +227,7 @@ void on_btn_red_clicked() {
 void on_btn_penguin_clicked() {
     Player *p = get_current_player();
     gchar* cmp = evaluate();
-    if (strcmp(cmp, "over") == 0) {
-        sprintf(str_lbl_field, "Player %d won!", get_current_player_number());
-        gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), str_lbl_field);
-    }
-    else if (strcmp(cmp, "PINGUIN") == 0 && btn_oeh_clicked == f->number_of_turtles)
+    if (strcmp(cmp, "PINGUIN") == 0 && btn_oeh_clicked == f->number_of_turtles)
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "true");
     else {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
@@ -189,11 +242,7 @@ void on_btn_penguin_clicked() {
 void on_btn_zebra_clicked() {
     Player *p = get_current_player();
     gchar* cmp = evaluate();
-    if (strcmp(cmp, "over") == 0) {
-        sprintf(str_lbl_field, "Player %d won!", get_current_player_number());
-        gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), str_lbl_field);
-    }
-    else if (strcmp(cmp, "ZEBRA") == 0 && btn_oeh_clicked == f->number_of_turtles)
+    if (strcmp(cmp, "ZEBRA") == 0 && btn_oeh_clicked == f->number_of_turtles)
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "true");
     else {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
@@ -208,11 +257,7 @@ void on_btn_zebra_clicked() {
 void on_btn_camel_clicked() {
     Player *p = get_current_player();
     gchar* cmp = evaluate();
-    if (strcmp(cmp, "over") == 0) {
-        sprintf(str_lbl_field, "Player %d won!", get_current_player_number());
-        gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), str_lbl_field);
-    }
-    else if (strcmp(cmp, "KAMEL") == 0 && btn_oeh_clicked == f->number_of_turtles)
+    if (strcmp(cmp, "KAMEL") == 0 && btn_oeh_clicked == f->number_of_turtles)
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "true");
     else {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
@@ -227,11 +272,7 @@ void on_btn_camel_clicked() {
 void on_btn_dodelido_clicked() {
     Player *p = get_current_player();
     gchar* cmp = evaluate();
-    if (strcmp(cmp, "over") == 0) {
-        sprintf(str_lbl_field, "Player %d won!", get_current_player_number());
-        gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), str_lbl_field);
-    }
-    else if (strcmp(cmp, "dodelido") == 0 && btn_oeh_clicked == f->number_of_turtles)
+    if (strcmp(cmp, "dodelido") == 0 && btn_oeh_clicked == f->number_of_turtles)
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "true");
     else {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
@@ -247,19 +288,16 @@ void on_btn_oeh_clicked() {
     Player *p = get_current_player();
     gchar* cmp = evaluate();
     btn_oeh_clicked++;
-    if (strcmp(cmp, "over") == 0) {
-        sprintf(str_lbl_field, "Player %d won!", get_current_player_number());
-        gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), str_lbl_field);
-    }
-    else if (f->number_of_turtles == 0) {
+    if (btn_oeh_clicked == f->number_of_turtles)
+        gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "true");
+    else {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
         for (int i = 0; i<MAXCARDS; i++)
             add_card(p, f->cards_all[i]);
         clean_up_field();
-    gtk_widget_set_sensitive (GTK_WIDGET(place_card), TRUE);
-    }
-    if (f->number_of_turtles == btn_oeh_clicked)
+        set_turn(p);
         gtk_widget_set_sensitive (GTK_WIDGET(place_card), TRUE);
+    }
 }
 
 void on_btn_smash_clicked() {
@@ -269,11 +307,7 @@ void on_btn_smash_clicked() {
 void on_btn_nothing_clicked() {
     Player *p = get_current_player();
     gchar* cmp = evaluate();
-    if (strcmp(cmp, "over") == 0) {
-        sprintf(str_lbl_field, "Player %d won!", get_current_player_number());
-        gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), str_lbl_field);
-    }
-    else if (strcmp(cmp, "nichts") == 0 )
+    if (strcmp(cmp, "nichts") == 0 && btn_oeh_clicked == f->number_of_turtles)
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "true");
     else {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "false");
@@ -305,6 +339,9 @@ setup_window() {
     new_dialog = GTK_WIDGET(gtk_builder_get_object(builder, "menu_new_dialog"));
  	about_dialog = GTK_WIDGET(gtk_builder_get_object(builder, "menu_about_dialog"));
  	preferences_dialog = GTK_WIDGET(gtk_builder_get_object(builder, "menu_preferences_dialog"));
+ 	image_f1 = GTK_IMAGE(gtk_builder_get_object(builder, "img_f1"));
+ 	image_f2 = GTK_IMAGE(gtk_builder_get_object(builder, "img_f2"));
+ 	image_f3 = GTK_IMAGE(gtk_builder_get_object(builder, "img_f3"));
 
     g_object_unref(builder);
 }

@@ -9,6 +9,9 @@ GtkWidget	*new_dialog;
 GtkWidget   *about_dialog;
 GtkWidget   *place_card;
 GtkWidget   *preferences_dialog;
+GtkImage    *image_f1;
+GtkImage    *image_f2;
+GtkImage    *image_f3;
 
 typedef struct {
     GtkWidget	*g_lbl_field;
@@ -22,5 +25,6 @@ void            on_btn_place_card_clicked(void);
 app_widgets     *widgets;
 gboolean        timer_handler(app_widgets *widgets);
 void            draw_field();
+void            clean_up_field();
 
 #endif /*_WINDOW_H_*/

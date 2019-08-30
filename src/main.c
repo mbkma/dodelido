@@ -1,8 +1,7 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <assert.h>
 #include <string.h>
-#include <time.h>
 #include <gtk/gtk.h>
 
 #include "window.h"

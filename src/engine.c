@@ -1,8 +1,8 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <assert.h>
 #include <string.h>
-#include <unistd.h>
+#include <gtk/gtk.h>
 
 #include "engine.h"
 
@@ -25,13 +25,17 @@ quit() {
 
 Player*
 create_player () {
+    int c = 0;
+    int a = 0;
     Player *new;
     new = (Player*) malloc(sizeof(Player));
     assert(new != NULL);
     for (int i = 0; i < 8; i++) {
-        int c = rand() % 5;
-        int a = rand() % 3;
+        c = g_random_int_range(0,3);
+        a = g_random_int_range(0,2);
         new->cards[i] = create_card(c, a);
+        if (g_random_int_range (0,19) < 1)
+            new->cards[i] = create_card(c, 3);
     }
     new->turn = 0;
     return new;
@@ -51,7 +55,6 @@ Field*
 create_field () {
     Field *new;
     new = (Field*) malloc(sizeof(Field));
-    new->number_of_players = 1;
     new->number_of_turtles = 0;
     return new;
 }
@@ -70,14 +73,6 @@ add_card (Player *p, Card *card) {
             slot--;
         p->cards[slot+1] = card;
     }
-}
-
-void
-clean_up_field() {
-    for (int i = 0; i < MAXCARDS; i++)
-        f->cards_all[i] = NULL;
-    for (int i = 0; i < 3; i++)
-        f->cards[i] = NULL;
 }
 
 Player*
@@ -122,8 +117,12 @@ evaluate() {
     for (int i=0; f->cards[i] != NULL && i<3; i++) {
         max_animal[f->cards[i]->animal]++;
         max_colour[f->cards[i]->colour]++;
+    printf("max_a %d\n", max_animal[f->cards[i]->animal]);
+    printf("max_c %d\n", max_colour[f->cards[i]->colour]);
     }
     f->number_of_turtles = max_animal[3];
+    printf("%d\n", f->number_of_turtles);
+
 
     for (int i = 0; i<4; i++) {
         if (max_animal[i] > max_a) {
@@ -141,8 +140,6 @@ evaluate() {
         if (max_colour[i] > 1)
             nothing_c = 0;
     }
-    if (get_number_of_cards(p1) == 0 || get_number_of_cards(p2) == 0 || get_number_of_cards(p3) == 0 )
-        return "over";
     if (nothing_a && nothing_c)
         return "nichts";
     else if (max_a > max_c)
@@ -179,24 +176,26 @@ next_run (Player *p) {
         remove_card(p);
         f_count++;
     }
-  //  printf("%s\n\n", p_print(p2));
 }
 
 char*
-print() {
+get_f_animal(int i) {
     char *str;
     str = (char *) malloc(200);
-    str = strcpy(str, "");
-    for (int i=0; i < 3; i++) {
-        if (f->cards[i] != NULL) {
-            strcat(str, " [ ");
-            strcat(str, vect_animal[f->cards[i]->animal]);
-            strcat(str, ", ");
-            strcat(str, vect_colour[f->cards[i]->colour]);
-            strcat(str, " ] ");
-        }
+    if (f->cards[i] != NULL) {
+        strcpy(str, vect_animal[f->cards[i]->animal]);
     }
 	return str;
+}
+
+char*
+get_f_colour (int i) {
+    char *str;
+    str = (char *) malloc(200);
+    if (f->cards[i] != NULL) {
+        strcpy(str, vect_colour[f->cards[i]->colour]);
+    }
+    return str;
 }
 
 

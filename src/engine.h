@@ -3,9 +3,9 @@
 
 #define MAXCARDS 50
 
-static int f_count = 0;
+int f_count;
 
-static char *vect_colour[] = {"ROSA", "BLAU", "GELB", "GRUEN", "WEISS"};
+static char *vect_colour[] = {"ROT", "BLAU", "GELB", "GRUEN", "WEISS"};
 static char *vect_animal[] = {"PINGUIN", "ZEBRA", "KAMEL", "SCHILDKROETE", "DINO"};
 
 typedef struct _card {
@@ -37,10 +37,10 @@ char*   evaluate ();
 void    quit();
 void    add_card (Player *p, Card *card);
 void	remove_card (Player *p);
-void    clean_up_field();
 void    set_turn (Player *p);
 void    next_run (Player *p);
-char*	print();
+char*   get_f_animal(int i);
+char*   get_f_colour(int i);
 int             get_number_of_cards(Player *p);
 int             get_current_player_number();
 Player*         get_current_player();

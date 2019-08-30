@@ -206,8 +206,8 @@
             <property name="can_focus">False</property>
             <child>
               <object class="GtkLabel" id="lbl_field">
-                <property name="width_request">405</property>
-                <property name="height_request">80</property>
+                <property name="width_request">218</property>
+                <property name="height_request">30</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">To start a game: File-&gt;New</property>
@@ -217,6 +217,10 @@
                   <attribute name="background" value="#4e4e9a9a0606"/>
                 </attributes>
               </object>
+              <packing>
+                <property name="x">22</property>
+                <property name="y">79</property>
+              </packing>
             </child>
             <child>
               <object class="GtkLabel" id="lbl_count">
@@ -241,6 +245,42 @@
               <packing>
                 <property name="x">466</property>
                 <property name="y">58</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkImage" id="img_f1">
+                <property name="width_request">100</property>
+                <property name="height_request">80</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+              </object>
+              <packing>
+                <property name="x">24</property>
+                <property name="y">12</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkImage" id="img_f2">
+                <property name="width_request">100</property>
+                <property name="height_request">80</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+              </object>
+              <packing>
+                <property name="x">132</property>
+                <property name="y">14</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkImage" id="img_f3">
+                <property name="width_request">100</property>
+                <property name="height_request">80</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+              </object>
+              <packing>
+                <property name="x">249</property>
+                <property name="y">14</property>
               </packing>
             </child>
           </object>
