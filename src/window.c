@@ -19,8 +19,10 @@ int  time_limit = 0;
 
 void 
 on_btn_place_card_clicked() {
-    timer = g_timer_new ();
-    g_timer_start (timer);
+    if (time_limit) {
+        timer = g_timer_new ();
+        g_timer_start (timer);
+    }
     Player *p = get_current_player();
     btn_oeh_clicked = 0;
     gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "");
