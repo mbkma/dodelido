@@ -35,4 +35,4 @@ engine.o: src/engine.c src/engine.h
 	$(CC) -c $(CCFLAGS) src/engine.c $(GTKLIB)
     
 clean:
-	rm -f *.o $(TARGET)
+	rm -f *.o glade/window_main.glade~ $(TARGET)

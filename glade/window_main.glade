@@ -67,7 +67,7 @@
       <placeholder/>
     </child>
     <child>
-      <object class="GtkBox">
+      <object class="GtkBox" id="box_one">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
@@ -299,6 +299,10 @@
           <object class="GtkBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="margin_left">5</property>
+            <property name="margin_right">5</property>
+            <property name="margin_top">5</property>
+            <property name="spacing">5</property>
             <property name="homogeneous">True</property>
             <child>
               <object class="GtkButton" id="btn_yellow">
@@ -371,6 +375,10 @@
           <object class="GtkBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="margin_left">5</property>
+            <property name="margin_right">5</property>
+            <property name="margin_top">5</property>
+            <property name="spacing">5</property>
             <property name="homogeneous">True</property>
             <child>
               <object class="GtkButton" id="btn_zebra">
@@ -443,7 +451,13 @@
           <object class="GtkBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="margin_left">5</property>
+            <property name="margin_right">5</property>
+            <property name="margin_top">5</property>
+            <property name="margin_bottom">5</property>
+            <property name="spacing">5</property>
             <property name="homogeneous">True</property>
+            <property name="baseline_position">bottom</property>
             <child>
               <object class="GtkButton" id="btn_dodelido">
                 <property name="label" translatable="yes">Dodelido!</property>
@@ -497,6 +511,9 @@
                 <property name="image">img_place_card</property>
                 <signal name="clicked" handler="on_btn_place_card_clicked" swapped="no"/>
                 <accelerator key="space" signal="clicked"/>
+                <style>
+                  <class name="suggested-action"/>
+                </style>
               </object>
               <packing>
                 <property name="expand">False</property>
