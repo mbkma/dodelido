@@ -155,7 +155,7 @@ evaluate() {
         if (max_colour[i] > 1)
             nothing_c = 0;
     }
-    if (f->number_of_turtles > 0 && btn_oeh_clicked != f->number_of_turtles)
+    if (f->number_of_turtles > 0 && btn_oeh_clicked < f->number_of_turtles)
         return "OEH";
     if (nothing_a && nothing_c)
         return "NOTHING";

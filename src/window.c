@@ -169,6 +169,8 @@ void on_preferences_dialog_music_state_set() {
 void on_btn_clicked(gchar *k) {
     Player *p = get_current_player();
     gchar *cmp = evaluate();
+    if (strcmp("OEH", k) == 0)
+        btn_oeh_clicked++;
     if (settings.time_limit && g_timer_elapsed (timer, NULL) > 3) {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "time elapsed");
         player_lost_turn_action(p);
@@ -223,7 +225,6 @@ void on_btn_dodelido_clicked() {
 }
 
 void on_btn_oeh_clicked() {
-    btn_oeh_clicked++;
     on_btn_clicked("OEH");
 }
 
