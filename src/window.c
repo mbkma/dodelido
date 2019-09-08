@@ -175,7 +175,7 @@ void on_btn_clicked(gchar *k) {
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "time elapsed");
         player_lost_turn_action(p);
     }
-    else if (strcmp(cmp, k) == 0 && btn_oeh_clicked == f->number_of_turtles) {
+    else if (strcmp(cmp, k) == 0) {
         if (strcmp("OEH", k) != 0)
             gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), "true");
     }
