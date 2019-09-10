@@ -6,6 +6,18 @@
 GtkBuilder	*builder; 
 GtkWidget	*window;
 GtkWidget   *place_card;
+GtkWidget   *btn_zebra;
+GtkWidget   *btn_camel;
+GtkWidget   *btn_penguin;
+GtkWidget   *btn_turtle;
+GtkWidget   *btn_yellow;
+GtkWidget   *btn_green;
+GtkWidget   *btn_blue;
+GtkWidget   *btn_red;
+GtkWidget   *btn_dod;
+GtkWidget   *btn_sm;
+GtkWidget   *btn_oeh;
+GtkWidget   *btn_not;
 GtkWidget	*new_dialog;
 GtkWidget   *about_dialog;
 GtkWidget   *preferences_dialog;
@@ -33,5 +45,6 @@ void            on_btn_place_card_clicked(void);
 App_Widgets     *widgets;
 void            draw_field();
 void            clean_up_field();
+void			set_button_state (gboolean state);
 
 #endif /*_WINDOW_H_*/

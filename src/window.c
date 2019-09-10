@@ -42,6 +42,7 @@ draw_field() {
     if (get_number_of_cards(p1) == 0 || get_number_of_cards(p2) == 0 || get_number_of_cards(p3) == 0 ) {
         sprintf(str_lbl_field, "Player %d won!", get_current_player_number());
         gtk_label_set_text(GTK_LABEL(widgets->g_lbl_field), str_lbl_field);
+		set_button_state (FALSE);
     }
 
     sprintf(str_lbl_count, "Cards %d", get_number_of_cards(get_current_player()));
@@ -131,6 +132,7 @@ void on_new_dialog_apply_clicked() {
     gtk_image_set_from_icon_name (image_f1, "gtk-remove",  GTK_ICON_SIZE_BUTTON);
     gtk_image_set_from_icon_name (image_f2, "gtk-remove",  GTK_ICON_SIZE_BUTTON);
     gtk_image_set_from_icon_name (image_f3, "gtk-remove",  GTK_ICON_SIZE_BUTTON);
+	set_button_state (TRUE);
     if (settings.music) {
     	GSoundContext *hello = gsound_context_new(NULL, NULL);
 	    gsound_context_play_simple(hello, NULL, NULL,
@@ -186,6 +188,22 @@ void on_btn_clicked(gchar *k) {
     if (strcmp("OEH", k) != 0)
         gtk_widget_set_sensitive (GTK_WIDGET(place_card), TRUE);
     set_turn(p);
+}
+
+void set_button_state (gboolean state) {
+        gtk_widget_set_sensitive (GTK_WIDGET(place_card), state);
+        gtk_widget_set_sensitive (GTK_WIDGET(btn_zebra), state);
+        gtk_widget_set_sensitive (GTK_WIDGET(btn_camel), state);
+        gtk_widget_set_sensitive (GTK_WIDGET(btn_penguin), state);
+        gtk_widget_set_sensitive (GTK_WIDGET(btn_turtle), state);
+        gtk_widget_set_sensitive (GTK_WIDGET(btn_yellow), state);
+        gtk_widget_set_sensitive (GTK_WIDGET(btn_green), state);
+        gtk_widget_set_sensitive (GTK_WIDGET(btn_blue), state);
+        gtk_widget_set_sensitive (GTK_WIDGET(btn_red), state);
+        gtk_widget_set_sensitive (GTK_WIDGET(btn_dod), state);
+        gtk_widget_set_sensitive (GTK_WIDGET(btn_sm), state);
+        gtk_widget_set_sensitive (GTK_WIDGET(btn_oeh), state);
+        gtk_widget_set_sensitive (GTK_WIDGET(btn_not), state);
 }
 
 void on_btn_green_clicked() {
@@ -254,12 +272,25 @@ setup_window() {
     widgets->g_lbl_count = GTK_WIDGET(gtk_builder_get_object(builder, "lbl_count"));
     widgets->g_lbl_player_turn = GTK_WIDGET(gtk_builder_get_object(builder, "lbl_player_turn"));
     place_card = GTK_WIDGET(gtk_builder_get_object(builder, "btn_place_card"));
+   	btn_zebra = GTK_WIDGET(gtk_builder_get_object(builder, "btn_zebra"));
+    btn_camel= GTK_WIDGET(gtk_builder_get_object(builder, "btn_camel"));
+    btn_penguin = GTK_WIDGET(gtk_builder_get_object(builder, "btn_penguin"));
+    btn_turtle = GTK_WIDGET(gtk_builder_get_object(builder, "btn_turtle"));
+    btn_yellow = GTK_WIDGET(gtk_builder_get_object(builder, "btn_yellow"));
+    btn_green = GTK_WIDGET(gtk_builder_get_object(builder, "btn_green"));
+    btn_blue = GTK_WIDGET(gtk_builder_get_object(builder, "btn_blue"));
+    btn_red = GTK_WIDGET(gtk_builder_get_object(builder, "btn_red"));
+    btn_dod = GTK_WIDGET(gtk_builder_get_object(builder, "btn_dodelido"));
+    btn_sm = GTK_WIDGET(gtk_builder_get_object(builder, "btn_smash"));
+    btn_oeh = GTK_WIDGET(gtk_builder_get_object(builder, "btn_oeh"));
+    btn_not = GTK_WIDGET(gtk_builder_get_object(builder, "btn_nothing"));
     new_dialog = GTK_WIDGET(gtk_builder_get_object(builder, "menu_new_dialog"));
  	about_dialog = GTK_WIDGET(gtk_builder_get_object(builder, "menu_about_dialog"));
  	preferences_dialog = GTK_WIDGET(gtk_builder_get_object(builder, "menu_preferences_dialog"));
  	image_f1 = GTK_IMAGE(gtk_builder_get_object(builder, "img_f1"));
  	image_f2 = GTK_IMAGE(gtk_builder_get_object(builder, "img_f2"));
  	image_f3 = GTK_IMAGE(gtk_builder_get_object(builder, "img_f3"));
+	set_button_state (FALSE);
 
     g_object_unref(builder);
 }
