@@ -9,6 +9,8 @@
 int main (int argc, char **argv) {
     initialise();
 
+    printf("hello world\n");
+
     gtk_init(&argc, &argv);
 
 	setup_window();
